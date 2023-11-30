@@ -36,16 +36,11 @@ public class ExpenseTrackerController {
   }
 
   public boolean addTransaction(double amount, String category) {
-    if (!InputValidation.isValidAmount(amount)) {
+    if (!InputValidation.isValidAmount(amount) || !InputValidation.isValidCategory(category)) {
       return false;
     }
-    if (!InputValidation.isValidCategory(category)) {
-      return false;
-    }
-    
     Transaction t = new Transaction(amount, category);
     model.addTransaction(t);
-    view.update(model);
     return true;
   }
 
@@ -63,12 +58,11 @@ public class ExpenseTrackerController {
         }
       }
       model.setMatchedFilterIndices(rowIndexes);
-      view.update(model);
     }
     else{
       JOptionPane.showMessageDialog(view, "No filter applied");
-      view.toFront();}
-
+      view.toFront();
+    }
   }
 
   //for undoing any selected transaction
@@ -76,11 +70,9 @@ public class ExpenseTrackerController {
     if (rowIndex >= 0 && rowIndex < model.getTransactions().size()) {
       Transaction removedTransaction = model.getTransactions().get(rowIndex);
       model.removeTransaction(removedTransaction);
-      view.update(model);
       // The undo was allowed.
       return true;
     }
-
     // The undo was disallowed.
     return false;
   }    
