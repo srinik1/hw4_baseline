@@ -77,6 +77,9 @@ public class ExpenseTrackerModel {
       // For the Observable class, this is one of the methods.
       //
       // TODO
+      if(listener == null){
+          return false;
+      }
       if(!expenseTrackerModelListeners.contains(listener)){
           expenseTrackerModelListeners.add(listener);
           return true;
